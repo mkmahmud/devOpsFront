@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
-
 import { useForm, SubmitHandler } from "react-hook-form";
 import MainInput from "../../../Forms/Input/MainInput";
 import Font from "../../../icons/Font";
 import { useNavigate } from "react-router-dom";
 import { useUserLoginMutation } from "../../../../redux/api/auth/authAPI";
 import { setToLocalStorage } from "../../../../utils/localStorage";
+import axios from "axios";
 
 const Login = () => {
   // Navigate If User logged In
@@ -16,7 +17,7 @@ const Login = () => {
 
   // React hook form
   type Inputs = {
-    id: string;
+    username: string;
     password: string;
   };
 
@@ -29,18 +30,27 @@ const Login = () => {
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const res = await userLogin(data).unwrap();
-    if (res) {
-      setToLocalStorage("access_token", res?.accessToken);
-      navigate("/profile");
-    } else {
-      setincorrectPassword("Password or Id Not valid");
-    }
+    // const res = await userLogin(data).unwrap();
+
+    axios
+      .post("http://47.128.250.38:8001/api/v1/users/token/", data, {
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "insomnia/8.6.1",
+        },
+      })
+      // .then((res) =>  console.log())
+      .then((res) =>
+        setToLocalStorage("access_token", `${res?.data?.data?.access}`)
+      )
+      .catch((err) => console.log(err));
+
+    navigate("/");
   };
   return (
     <div className="max-w-[400px] mx-auto mt-[150px]">
       <div className="text-center">
-        <h2 className="font-bold text-extraLarge">Blossom</h2>
+        <h2 className="font-bold text-extraLarge">DevOps</h2>
         <p className="text-xl my-4">Sign Into Your Accout</p>
       </div>
       <h2 className="text-xl text-primary text-center">{incorrectPassword}</h2>
@@ -48,10 +58,10 @@ const Login = () => {
       <form className="my-6" onSubmit={handleSubmit(onSubmit)}>
         <MainInput
           type="text"
-          placeholder="User Id  "
+          placeholder="username "
           icon="fa-envelope"
-          register={register("id", { required: true })}
-          error={errors.id}
+          register={register("username", { required: true })}
+          error={errors.username}
         />
 
         <MainInput

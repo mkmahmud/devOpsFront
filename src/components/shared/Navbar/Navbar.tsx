@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import logo from "../../../assets/logo/black-logo.png";
+import logo from "../../../assets/images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import Font from "../../icons/Font";
 import MainButton from "../../Buttons/MainButton";
 import { isLoggedIn, removeUserInfo } from "../../../services/authService";
+
 const Navbar = () => {
   // User logged data
 
@@ -30,49 +31,7 @@ const Navbar = () => {
     };
   }, []);
 
-  //   Handele Mobile Menus
-  const [mobileMenu, setMobileMenu] = useState(false);
-
   //   Menus
-  const menus = [
-    { title: "home", dropdown: null },
-    { title: "About", dropdown: null },
-    {
-      title: "Courses",
-      dropdown: [
-        {
-          title: "Web-development",
-          dropdown: null,
-        },
-        {
-          title: "Digital-Marketing",
-          dropdown: null,
-        },
-      ],
-    },
-    {
-      title: "Class",
-      dropdown: [
-        {
-          title: "Class",
-          dropdown: null,
-        },
-        {
-          title: "Class",
-          dropdown: null,
-        },
-        {
-          title: "Class",
-          dropdown: null,
-        },
-        {
-          title: "Class",
-          dropdown: null,
-        },
-      ],
-    },
-    { title: "profile", dropdown: null },
-  ];
 
   // Handel Logout
   const handelLogout = () => {
@@ -86,48 +45,36 @@ const Navbar = () => {
         isSticky ? " bg-white " : ""
       }`}
     >
-      <nav className="flex items-center justify-between">
-        <div className="text-2xl font-bold">
+      <nav className="flex items-center justify-between w-full">
+        <div className="text-2xl font-bold w-2/12">
           <Link to="/">
-            <img src={logo} alt="" />
+            <img src={logo} className="h-10" alt="" />
           </Link>
         </div>
         {/* Desktop Menus */}
-        <div className="hidden md:block">
-          <ul className=" flex space-x-4 uppercase font-medium">
-            {menus.map((menu, index) => (
-              <li className="py-2 group" key={index}>
-                <Link
-                  to={menu?.dropdown ? "" : menu.title}
-                  className="hover:text-primary flex items-center text-base "
-                >
-                  <span className="mx-2">{menu?.title}</span>
-                  {menu?.dropdown && (
-                    <Font iconName="fa-angle-down text-base"></Font>
-                  )}
-                </Link>
-                {/* Dropdown Menus */}
-                {menu?.dropdown && (
-                  <ul className="absolute bg-gray py-2 px-4 top-16 hidden group-hover:block z-10">
-                    {menu?.dropdown.map((m, i) => (
-                      <li className="my-2" key={i}>
-                        {" "}
-                        <Link
-                          to={m?.title}
-                          className="hover:text-primary flex items-center text-base "
-                        >
-                          {m?.title}{" "}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            ))}
-          </ul>
+        <div className="  md:flex items-center w-6/12 px-2 ">
+          <div className="w-3/12">
+            <Link
+              to="/"
+              className="hover:text-primary flex items-center text-base "
+            >
+              <span className="mx-2 text-xl font-bold border-b-4 border-primary">
+                For You
+              </span>
+            </Link>
+          </div>
+          <div className="w-9/12">
+            <input
+              type="text"
+              name=""
+              className="text-base w-full border text-lg py-2 rounded-full border-primary pl-6 "
+              placeholder="Search........."
+              id=""
+            />
+          </div>
         </div>
-        <ul className="flex space-x-4 hidden md:block">
-          <li>
+        <ul className="w-4/12  flex  justify-end  ">
+          <li className="">
             {loggedUser ? (
               <button
                 onClick={() => {
@@ -153,87 +100,6 @@ const Navbar = () => {
           </li>
         </ul>
         {/* Mobile Menu */}
-        <button className="font-semibold md:hidden">
-          {mobileMenu ? (
-            <i
-              className="fa-solid fa-minus"
-              onClick={() => {
-                setMobileMenu(!mobileMenu);
-              }}
-            ></i>
-          ) : (
-            <i
-              className="fa-solid fa-bars-staggered"
-              onClick={() => {
-                setMobileMenu(!mobileMenu);
-              }}
-            ></i>
-          )}
-        </button>
-        {mobileMenu && (
-          <div className="absolute bg-gray h-screen top-0 w-2/3 sm:w-1/2 left-0 px-4">
-            <div>
-              <div className="text-2xl font-bold py-10">
-                <img className="block mx-auto" src={logo} alt="" />
-              </div>
-              <ul className="  uppercase font-medium ">
-                {menus.map((menu, index) => (
-                  <li className="py-2 group my-4 w-full relative" key={index}>
-                    <Link
-                      to={menu?.dropdown ? "" : menu.title}
-                      className="hover:text-primary flex items-center justify-between text-base "
-                    >
-                      <span className="mx-2 ">{menu?.title}</span>
-                      {menu?.dropdown && (
-                        <Font iconName="fa-angle-down text-base"></Font>
-                      )}
-                    </Link>
-                    {/* Dropdown Menus */}
-                    {menu?.dropdown && (
-                      <ul className="  bg-white py-2 px-4 mt-4  hidden group-hover:block z-10">
-                        {menu?.dropdown.map((m, i) => (
-                          <li className="my-2" key={i}>
-                            {" "}
-                            <Link
-                              to={m?.title}
-                              className="hover:text-primary flex items-center text-base "
-                            >
-                              {m?.title}{" "}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              {loggedUser ? (
-                <button
-                  onClick={() => {
-                    handelLogout();
-                  }}
-                  className=" group overflow-hidden flex justify-center items-center relative   bg-primary px-6 py-4 text-base text-white font-semibold  rounded-full"
-                >
-                  <div className="flex items-center">
-                    <span className="mr-4 rotate-180">
-                      <Font iconName="fa-right-to-bracket"></Font>{" "}
-                    </span>
-                    <span>Log Out</span>{" "}
-                  </div>
-                  <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-primaryHover opacity-40 group-hover:animate-shine" />
-                </button>
-              ) : (
-                <MainButton
-                  path="/auth"
-                  content="log in / sign up"
-                  icon="fa-right-to-bracket"
-                ></MainButton>
-              )}
-            </div>
-          </div>
-        )}
       </nav>
     </div>
   );

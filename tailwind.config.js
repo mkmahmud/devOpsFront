@@ -6,7 +6,7 @@ export default {
       Roboto: ["Roboto", "sans-serif"],
     },
     colors: {
-      primary: "#f55951",
+      primary: "#436850",
       primaryHover: "#edd2cb",
       secondary: "#361d32",
       secondaryHover: "#543c52",
