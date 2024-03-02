@@ -1,19 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import MainInput from "../../../Forms/Input/MainInput";
 import Font from "../../../icons/Font";
 import { useNavigate } from "react-router-dom";
-import { useUserLoginMutation } from "../../../../redux/api/auth/authAPI";
 import { setToLocalStorage } from "../../../../utils/localStorage";
 import axios from "axios";
 
 const Login = () => {
   // Navigate If User logged In
   const navigate = useNavigate();
-
-  // Show incorrect password
-  const [incorrectPassword, setincorrectPassword] = useState(" ");
 
   // React hook form
   type Inputs = {
@@ -22,7 +17,6 @@ const Login = () => {
   };
 
   // Handle Redux Login
-  const [userLogin, { isLoading }] = useUserLoginMutation();
 
   const {
     register,
@@ -53,7 +47,6 @@ const Login = () => {
         <h2 className="font-bold text-extraLarge">DevOps</h2>
         <p className="text-xl my-4">Sign Into Your Accout</p>
       </div>
-      <h2 className="text-xl text-primary text-center">{incorrectPassword}</h2>
       {/* Login Form */}
       <form className="my-6" onSubmit={handleSubmit(onSubmit)}>
         <MainInput
@@ -92,15 +85,6 @@ const Login = () => {
           className="w-full my-10 group overflow-hidden flex justify-center items-center relative   bg-primary px-6 py-4 text-base text-white font-semibold  rounded-full"
         >
           <span>Log in</span> {/* Button Icon */}
-          {isLoading ? (
-            <span className="animate-spin">
-              <Font iconName="fa-spinner"></Font>
-            </span>
-          ) : (
-            <span className="ml-4">
-              <Font iconName="fa-paper-plane"></Font>{" "}
-            </span>
-          )}
           <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-primaryHover opacity-40 group-hover:animate-shine" />
         </button>
       </form>

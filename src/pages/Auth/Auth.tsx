@@ -1,5 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import Register from "../../components/Ui/Auth/Register/Register";
 import Login from "../../components/Ui/Auth/Login/Login";
 import { Link, useNavigate } from "react-router-dom";
 import Font from "../../components/icons/Font";
@@ -53,7 +53,6 @@ const Auth = () => {
         {!register && <Login />}
 
         {/* Sign Up */}
-        {register && <Register setRegister={setRegister} />}
       </div>{" "}
     </div>
   );
