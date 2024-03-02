@@ -47,7 +47,7 @@ const Home = () => {
       .then((res) => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        setItems((prevItems) => [...prevItems, ...res.data]);
+        setItems((prevItems) => [...prevItems, ...res.data.data]);
 
         res.data.length > 0 ? setHasMore(true) : setHasMore(false);
       })
@@ -80,6 +80,9 @@ const Home = () => {
       >
         <div className="container">
           <div className="row">
+            {items.length == 0 && (
+              <h2 className="text-center text-primary">No Data Found</h2>
+            )}
             {items.length > 0 &&
               // @ts-ignore
               items.map((item) => <FeedCard data={item} key={item?.id} />)}
